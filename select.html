@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><title>اختيار الفئات</title><style>
+body{font-family:Arial;text-align:center;padding:20px;}
+.card{display:inline-block;width:120px;height:150px;margin:10px;background:#ddd;cursor:pointer;border-radius:10px;line-height:150px;}
+.selected{border:3px solid orange;}
+</style></head>
+<body>
+    <h1>اختر 6 فئات</h1>
+    <div id="cards"></div>
+    <button id="start" style="display:none;" onclick="start()">ابدأ</button>
+    <script>
+        const cats=['الكويت','السعودية','القرآن','تاريخ','رياضة'];
+        let sel=0;
+        cats.forEach(c=>{
+            let d=document.createElement('div');d.className='card';d.textContent=c;
+            d.onclick=function(){this.classList.toggle('selected'); sel+=this.classList.contains('selected')?1:-1; document.getElementById('start').style.display=sel===6?'inline-block':'none';};
+            document.getElementById('cards').appendChild(d);
+        });
+        function start(){
+            localStorage.setItem('selected',JSON.stringify(Array.from(document.querySelectorAll('.selected')).map(d=>d.textContent)));
+            location.href='game.html';
+        }
+    </script>
+</body>
+</html>
