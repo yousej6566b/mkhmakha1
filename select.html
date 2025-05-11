@@ -3,21 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <title>اختيار الفئات</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
-    /* الصياغة المحدثة المرفقة أعلاه */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background: #f0f0f0;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    #cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+    .card {
+      position: relative;
+      width: 140px;
+      height: 160px;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .card.selected {
+      box-shadow: 0 0 0 4px #ffa500;
+    }
+    .card .label {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 8px 0;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-weight: bold;
+    }
+    #start {
+      display: none;
+      margin-top: 20px;
+      padding: 10px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 20px;
+      background: #ff4500;
+      color: white;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
+
   <h1>اختر 6 فئات</h1>
   <div id="cards"></div>
-  <button id="start" style="display:none;">ابدأ</button>
+  <button id="start" onclick="start()">ابدأ</button>
 
   <script>
-    // مصفوفة الفئات مع الصور والألوان
     const cats = [
-      { name: 'الكويت',    img: 'https://www.raed.net/img?id=1321169',    color: '#e3b23c' },
-      { name: 'السعودية',  img: 'https://www.raed.net/img?id=1321170',     color: '#2e7d32' },
-      { name: 'القرآن',     img: 'https://www.raed.net/img?id=1321172',     color: '#004d40' },
+      { name: 'الكويت',    img: 'images/kuwait.jpg',    color: '#e3b23c' },
+      { name: 'السعودية',  img: 'images/saudi.jpg',     color: '#2e7d32' },
+      { name: 'القرآن',     img: 'images/quran.jpg',     color: '#004d40' },
       { name: 'تاريخ',      img: 'https://www.raed.net/img?id=1321173',   color: '#6d4c41' },
       { name: 'رياضة',      img: 'images/sports.jpg',    color: '#0277bd' },
       { name: 'عواصم',      img: 'images/capitals.jpg',  color: '#5e35b1' },
@@ -29,6 +84,7 @@
 
     const container = document.getElementById('cards');
     let sel = 0;
+
     cats.forEach(cat => {
       const d = document.createElement('div');
       d.className = 'card';
@@ -47,9 +103,9 @@
       const selected = Array.from(document.querySelectorAll('.selected'))
                             .map(el => el.textContent.trim());
       localStorage.setItem('selected', JSON.stringify(selected));
-      location.href = 'game.html';
+      window.location.href = 'game.html';
     }
-    document.getElementById('start').onclick = start;
   </script>
+
 </body>
 </html>
