@@ -1,49 +1,94 @@
+
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <title>إنشاء حساب</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
-    input { width: 200px; padding: 8px; margin: 8px 0; }
-    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Register - Mkhmakha</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: linear-gradient(to right, #ff3c00, #ffa44d);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 40px;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 12px;
+            width: 80%;
+            max-width: 300px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 25px;
+            background-color: white;
+            color: #ff3c00;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #ffe3d1;
+        }
+    </style>
 </head>
 <body>
-  <h1>إنشاء حساب</h1>
-  <input id="name"       placeholder="الاسم الكامل" /><br />
-  <input id="email" type="email"    placeholder="البريد الإلكتروني" /><br />
-  <input id="password" type="password" placeholder="كلمة المرور" /><br />
-  <button onclick="register()">إنشاء الحساب</button>
+    <h1>Register</h1>
+    <p>Create a new account to play</p>
+    <input type="text" id="fullname" placeholder="Full Name (English only)" />
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <input type="date" id="birthdate" placeholder="Birth Date" />
+    <input type="number" id="age" placeholder="Age" min="5" max="100" />
+    <input type="tel" id="phone" placeholder="رقم الهاتف" pattern="[0-9]{8,15}" required />
+    <button onclick="register()">Create Account</button>
 
-  <script>
-    function register() {
-      const fullNameInput = document.getElementById("name");
-      const emailInput    = document.getElementById("email");
-      const pwdInput      = document.getElementById("password");
+    <script>
+        function register() {
+            const fullname = document.getElementById("fullname").value.trim();
+            const email = document.getElementById("email").value.trim().toLowerCase();
+            const password = document.getElementById("password").value.trim();
+            const birthdate = document.getElementById("birthdate").value;
+            const age = document.getElementById("age").value;
+            const phone = document.getElementById("phone").value.trim();
 
-      const fullName = fullNameInput.value.trim();
-      const email    = emailInput.value.trim();
-      const pwd      = pwdInput.value.trim();
+            if (!fullname || !email || !password || !birthdate || !age || !phone) {
+                alert("Please fill all fields.");
+                return;
+            }
 
-      if (!fullName || !email || !pwd) {
-        alert("يرجى إكمال جميع الحقول");
-        return;
-      }
+            let users = JSON.parse(localStorage.getItem("users") || "{}");
 
-      const users = JSON.parse(localStorage.getItem("users") || "{}");
+            if (users[email]) {
+                alert("This email is already registered.");
+                return;
+            }
 
-      if (users[email]) {
-        alert("هذا البريد مسجل مسبقًا");
-        return;
-      }
+            users[email] = {
+                fullname,
+                password,
+                birthdate,
+                age,
+                phone
+            };
 
-      users[email] = { name: fullName, password: pwd };
-      localStorage.setItem("users", JSON.stringify(users));
-      localStorage.setItem("user", email);
-      window.location.href = "select.html";
-    }
-  </script>
+            localStorage.setItem("users", JSON.stringify(users));
+            localStorage.setItem("user", email);
+            alert("Account created successfully!");
+            window.location.href = "home.html";
+        }
+    </script>
 </body>
 </html>
